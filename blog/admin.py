@@ -5,13 +5,12 @@ from .models import Comment, Post
 
 
 class PostAdmin(SummernoteModelAdmin):
-    list_display = ("title", "slug", "status", "created_on")
+    list_display = ("title", "slug", "status", "created_on", "content")
     list_filter = ("status", "created_on")
-    search_fields = ["title", "content"]
+    search_fields = ["title"]
     prepopulated_fields = {"slug": ("title",)}
-
-    summernote_fields = ("content",)
-
+    
+    summernote_fields = ('content',)
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):

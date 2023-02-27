@@ -1,8 +1,22 @@
 {% extends "base.html" %}
-
 {% block content %}
 
+    <style>
+        body {
+            font-family: "Roboto", sans-serif;
+            font-size: 18px;
+            background-color: #fdfdfd;
+        }
+         
+        .head-text {
+            color: white;
+        }
 
+        .card {
+            box-shadow: 0 16px 48px #E3E7EB;
+        }
+        
+    </style>
     <header class="masthead">
         <div class="overlay"></div>
         <div class="container">
@@ -16,12 +30,11 @@
                 </div>
             </div>
         </div>
-    </div>
+        </div>
     </header>
 
     <div class="container">
         <div class="row">
-
             <!-- Blog Entries Column -->
             <div class="col-md-8 mt-3 left">
                 {% for post in post_list %}
@@ -29,29 +42,23 @@
                         <div class="card-body">
                             <h2 class="card-title">{{ post.title }}</h2>
                             <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}}  </p>
-
                             <p class="card-text">{{post.content|safe|slice:":200" }}</p>
                             <a href="{% url 'post_detail' post.slug  %}" class="btn btn-primary">Read More &rarr;</a>
                         </div>
-
                     </div>
                 {% endfor %}
-
             </div>
-            {% block sidebar %}
-                {% include 'sidebar.html' %}
-            {% endblock sidebar %}
+            {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
         </div>
     </div>
-    {% if is_paginated %}
+    {% if post_list.has_other_pages %}
         <nav aria-label="Page navigation conatiner"></nav>
         <ul class="pagination justify-content-center">
-            {% if page_obj.has_previous %}
-                <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+            {% if post_list.has_previous %}
+                <li><a href="?page={{ post_list.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
             {% endif %}
             {% if page_obj.has_next %}
-                <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
-
+            <li><a href="?page={{ post_list.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
             {% endif %}
         </ul>
         </nav>
