@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 #from django.views import generic
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-from .forms import CommentForm
+from .forms import CommentForm, ImageForm
 from .models import Post
 
 
@@ -46,3 +46,16 @@ def post_detail(request, slug):
                                         "comments": comments,
                                         "new_comment": new_comment,
                                         "comment_form": comment_form})
+
+
+def image_upload_view(request):
+    if request.method == "POST":
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            #Get the current instance object to display in the template
+            img_obj = form.instance
+            return render(request, "index.html", {"form": form, "img_obj": img_obj})
+    else:
+        form = ImageForm()
+    return render(request, "index.html", {"form": form})

@@ -25,6 +25,7 @@ class Post(models.Model):
         return reverse("post_detail", kwargs={"slug": str(self.slug)})
 
 
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     name = models.CharField(max_length=80)
@@ -38,3 +39,12 @@ class Comment(models.Model):
 
     def __str__(self):
         return "Comment {} by {}".format(self.body, self.name)
+
+
+class Image(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True, height_field=None, width_field=None)
+    
+    def __str__(self):
+        return self.title
+    
